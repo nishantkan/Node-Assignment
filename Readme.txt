@@ -7,6 +7,6 @@ Steps:
 
 
 Test case
-1) In index.js, comment the code from lines 54 to 61 (just below garland comment and just above module.exports statement).
+1) In index.js, comment the code just above module.exports statement and just below garland comment (//*****)(tenatively from line 60, where callFetch has been invoked).
 2) Run 'npm test  tests/jsonTocsv.test.js' in command line.
 3) You can see test pass once the file is created and written.
