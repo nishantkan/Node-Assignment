@@ -1,0 +1,7 @@
+{
+  "url": "http://interviewapi20170221095727.azurewebsites.net/api/users",
+  "auth": {
+    "user": "authentica",
+    "password": "@uth3nt1c@"
+  }
+}
