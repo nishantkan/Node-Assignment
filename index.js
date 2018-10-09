@@ -60,13 +60,13 @@ function callFetch(pgNo) {
 
 //*******************************************************
 
-// callFetch(pgNo).then((x) => {
-//     csvWriter.on('finish', () => {
-//         console.log('wrote all data to file');
-//         process.exit();
-//     });
-//     csvWriter.end();
-// });
+ callFetch(pgNo).then((x) => {
+     csvWriter.on('finish', () => {
+         console.log('wrote all data to file');
+         process.exit();
+     });
+     csvWriter.end();
+ });
 
 module.exports = { callFetch: callFetch, fileName: fileName };
 
