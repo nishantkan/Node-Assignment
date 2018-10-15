@@ -5,9 +5,6 @@ const options = require('./authConfig.json');
 
 let fileName = `output/testOutput_${Date.parse(new Date)}.csv`;
 let csvWriter = fs.createWriteStream(fileName);
-var writer = require('csv-write-stream')();
-writer.pipe(csvWriter);
-
 let j2c = new jsonToCsv();
 
 function responseAPI(options, pgNo) {
@@ -42,15 +39,16 @@ function callFetch(pgNo) {
                     address: x.address.street + ' ' + x.address.City + ' ' + x.address.State + ' ' + x.address.Country
                 }
             })
-            addArr.forEach((x) => {
-                writer.write(x);
-            })
+            let csvData = j2c.convert(addArr, pgNo);
+            if (pgNo === 1) csvWriter.write(csvData.keys);
+            csvData.valueSet.forEach(v => {
+                csvWriter.write(v);
+            });
             pgNo++
             return callFetch(pgNo).then(() => { });
         }
         else if (resp.statusCode === 404) {
             dataOver = true;
-            writer.end();
         }
     }).catch((err) => {
         console.log('err', err);
@@ -62,10 +60,13 @@ function callFetch(pgNo) {
 
 //*******************************************************
 
-callFetch(pgNo).then((x) => {
-    console.log('wrote all data to file');
-    process.exit();
-});
+ callFetch(pgNo).then((x) => {
+     csvWriter.on('finish', () => {
+         console.log('wrote all data to file');
+         process.exit();
+     });
+     csvWriter.end();
+ });
 
 module.exports = { callFetch: callFetch, fileName: fileName };
 
